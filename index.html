@@ -7,12 +7,80 @@
 </head>
 <body>
     <p>This game is played via the console.</p>
-    <p>Nothing else to be found here.</p>
+    <p>Nothing else can be found here.</p>
     <script>
 
+let humanScore = 0;
+let computerScore = 0;
 
+function getComputerChoice() {
+    let randVal = Math.floor(Math.random() * 3);
+    let choice;
+    switch (randVal) {
+        case(0):
+        choice = "rock";
+        break;
+        case(1): 
+        choice = "paper";
+        break;
+        case(2): 
+        choice = "scissors";
+        break;
+    }
+    return choice
+}
 
+function getHumanChoice() {
+    return prompt("Eingabe von 'Rock', 'Paper' oder 'Scissors'.")
+}
 
+function playRound(humanChoice, computerChoice) {
+    humanChoice = humanChoice.toLowerCase()
+    if (humanChoice === computerChoice) {
+        console.log("Tie - points for everyone for selecting " +humanChoice);
+        humanScore++;
+        computerScore++;
+    } else if (humanChoice === "paper") {
+        if (computerChoice==="rock") {
+            console.log("You win beating rock.");
+            humanScore++;
+        } else {
+            console.log("You lose to scissors.");
+            computerScore++;
+        }
+    } else if (humanChoice === "rock") {
+        if (computerChoice==="scissors") {
+            console.log("You win beating scissors.");
+            humanScore++;
+        } else {
+            console.log("You lose to paper.");
+            computerScore++;
+        }
+    } else {
+        if (computerChoice==="paper") {
+            console.log("You win beating paper.");
+            humanScore++;
+        } else {
+            console.log("You lose to rock.");
+            computerScore++;
+        }
+    }
+    if (humanScore === computerScore) {
+        console.log("You: " + humanScore + " Machine: " + computerScore + " - Currently tied.")
+    } else if (humanScore > computerScore) {
+        console.log("You: " + humanScore + " Machine: " + computerScore + " - You are winning.")
+    } else {
+        console.log("You: " + humanScore + " Machine: " + computerScore + " - You are losing.")
+    }
+}
+
+console.log("Starting game")
+playRound(getHumanChoice(),getComputerChoice())
+playRound(getHumanChoice(),getComputerChoice())
+playRound(getHumanChoice(),getComputerChoice())
+playRound(getHumanChoice(),getComputerChoice())
+playRound(getHumanChoice(),getComputerChoice())
+console.log("Game finished. Reload site to replay.")
 
 
     </script>
