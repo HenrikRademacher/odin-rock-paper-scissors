@@ -2,6 +2,8 @@
     display: flex;
     flex-direction: column;
     gap: 20px;
+    border: solid black 2px;
+    width: 50%;
 }
 
 .playHeader {
@@ -9,15 +11,11 @@
     gap: 10%;
     justify-content:space-around;
     align-items: center;
-    border: solid darkblue 2px;
-    width: 50%;
 }
 
 .selection {
     display: flex;
-    width: 50%;
     justify-content: space-around;
-    border: solid darkblue 2px;
     gap: 10%;
     align-items: center;
 }
@@ -31,14 +29,21 @@
 .roundView {
     display: flex;
     flex-direction: column;
-    border: solid darkred 2px;
-    width: 50%;
+}
+
+.roundView p {
+    margin-left: 20px;
+    margin-top: 5px;
+    margin-bottom: 5px;
+    font-size: 18px;
 }
 
 .result {
     display: flex;
     justify-content: center;
     align-items: center;
-    width: 50%;
-    border: solid darkblue 2px;
+}
+
+#startGame {
+    font-size: 24px;
 }

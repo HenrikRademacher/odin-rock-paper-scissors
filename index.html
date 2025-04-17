@@ -7,13 +7,13 @@
     <link href='./style.css' rel='stylesheet'>
 </head>
 <body>
-    <h1>Play Rock-Paper-Scissors againt the computer</h1>
-    <p>It uses random chance to determine its choice.</p>
+    <h1>Play Rock-Paper-Scissors against the computer</h1>
+    <p>Computer uses random chance to determine its choice.</p>
     <div class="playArea">
         <div class="playHeader">
-            <p>Your score: 0</p>
+            <p id="humanText">Your score: 0</p>
             <button id="startGame">Start game</button>
-            <p>Computer score: 0</p>
+            <p id="computerText">Computer score: 0</p>
         </div>
         <div class="selection">
             <button class="choice" id="Rock">Select 'Rock'</button>
@@ -21,7 +21,7 @@
             <button class="choice" id="Scissors">Select 'Scissors'</button>
         </div>
         <div class="roundView">
-            <!-- Round score insertions via JS -->
+            <!-- currently empty, awaits round score insertions via JS -->
         </div>
         <div class="result">
             <p class="gameStatus">Game paused.</p>
@@ -30,77 +30,106 @@
 
     <script>
 
-let humanScore = 0;
-let computerScore = 0;
+let humanScore;
+let computerScore;
+let roundCounter;
+let startButton = document.querySelector("#startGame");
+let humanMessage = document.querySelector("#humanText");
+let computerMessage = document.querySelector("#computerText");
+let gameStatus = document.querySelector(".gameStatus");
+let choiceArea = document.querySelector(".selection");
+let roundArea = document.querySelector(".roundView");
+startButton.addEventListener("click", initializeGame);
+
+function initializeGame () {
+    humanScore = 0;
+    computerScore = 0;
+    roundCounter = 0;
+    updateHuman()
+    updateComputer()
+    gameStatus.textContent = "Game started - awaiting user input"
+    choiceArea.addEventListener("click", playGame);
+    let currentGames = document.querySelectorAll(".roundView p");
+    for (game of currentGames) {
+        game.remove();
+    }
+}
+
+function playGame(e) {
+    if (e.target.id) {
+        resolveChoice(e.target.id, getComputerChoice());
+    }
+}
 
 function getComputerChoice() {
     let randVal = Math.floor(Math.random() * 3);
     let choice;
     switch (randVal) {
         case(0):
-        choice = "rock";
+        choice = "Rock";
         break;
         case(1): 
-        choice = "paper";
+        choice = "Paper";
         break;
         case(2): 
-        choice = "scissors";
+        choice = "Scissors";
         break;
     }
     return choice
 }
 
-function getHumanChoice() {
-    return prompt("Eingabe von 'Rock', 'Paper' oder 'Scissors'.")
-}
-
-function playRound(humanChoice, computerChoice) {
-    humanChoice = humanChoice.toLowerCase()
+function resolveChoice(humanChoice, computerChoice) {
+    roundCounter++;
+    let message = `Round ${roundCounter}: You chose ${humanChoice}, Computer chose ${computerChoice}. `
     if (humanChoice === computerChoice) {
-        console.log("Tie - points for everyone for selecting " +humanChoice);
+        message = message + "It's a tie. ";
         humanScore++;
         computerScore++;
-    } else if (humanChoice === "paper") {
-        if (computerChoice==="rock") {
-            console.log("You win beating rock.");
-            humanScore++;
-        } else {
-            console.log("You lose to scissors.");
-            computerScore++;
-        }
-    } else if (humanChoice === "rock") {
-        if (computerChoice==="scissors") {
-            console.log("You win beating scissors.");
-            humanScore++;
-        } else {
-            console.log("You lose to paper.");
-            computerScore++;
-        }
+    } else if ((humanChoice === "Paper" && computerChoice==="Rock") || (humanChoice === "Rock" && computerChoice==="Scissors") || (humanChoice === "Scissors" && computerChoice==="Paper")) {
+        message = message + "You win. ";
+        humanScore++;
     } else {
-        if (computerChoice==="paper") {
-            console.log("You win beating paper.");
-            humanScore++;
-        } else {
-            console.log("You lose to rock.");
-            computerScore++;
-        }
+        message = message + "You lose. ";
+        computerScore++;
     }
-    if (humanScore === computerScore) {
-        console.log("You: " + humanScore + " Machine: " + computerScore + " - Currently tied.")
-    } else if (humanScore > computerScore) {
-        console.log("You: " + humanScore + " Machine: " + computerScore + " - You are winning.")
-    } else {
-        console.log("You: " + humanScore + " Machine: " + computerScore + " - You are losing.")
-    }
+    updateHuman(humanScore);
+    updateComputer(computerScore);
+    updateStatus(humanScore, computerScore);
+    addRound(message);
 }
 
-console.log("Starting game")
-// playRound(getHumanChoice(),getComputerChoice())
-// playRound(getHumanChoice(),getComputerChoice())
-// playRound(getHumanChoice(),getComputerChoice())
-// playRound(getHumanChoice(),getComputerChoice())
-// playRound(getHumanChoice(),getComputerChoice())
-console.log("Game finished. Reload site to replay.")
+function updateHuman() {
+    humanMessage.textContent = `Your score: ${humanScore}`;
+}
+
+function updateComputer() {
+    computerMessage.textContent = `Computer score: ${computerScore}`;
+}
+
+function updateStatus(humanScore, computerScore) {
+    let position;
+    let finishText;
+    if (humanScore > computerScore) {
+        position = "leading";
+    } else if (humanScore < computerScore) {
+        position = "losing";
+    } else {
+        position = "tied";
+    }
+    if (roundCounter >= 5) {
+        finishText = "The game is complete. ";
+        choiceArea.removeEventListener("click", playGame);
+    } else {
+        finishText = "";
+    }
+    gameStatus.textContent = `After round ${roundCounter}, you are ${position} ${humanScore} to ${computerScore}. ${finishText}`
+}
+
+function addRound(text) {
+    newP = document.createElement("p");
+    newP.textContent = text;
+    roundArea.appendChild(newP);
+}
 
 
     </script>
