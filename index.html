@@ -4,10 +4,30 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>odin-RPC</title>
+    <link href='./style.css' rel='stylesheet'>
 </head>
 <body>
-    <p>This game is played via the console.</p>
-    <p>Nothing else can be found here.</p>
+    <h1>Play Rock-Paper-Scissors againt the computer</h1>
+    <p>It uses random chance to determine its choice.</p>
+    <div class="playArea">
+        <div class="playHeader">
+            <p>Your score: 0</p>
+            <button id="startGame">Start game</button>
+            <p>Computer score: 0</p>
+        </div>
+        <div class="selection">
+            <button class="choice" id="Rock">Select 'Rock'</button>
+            <button class="choice" id="Paper">Select 'Paper'</button>
+            <button class="choice" id="Scissors">Select 'Scissors'</button>
+        </div>
+        <div class="roundView">
+            <!-- Round score insertions via JS -->
+        </div>
+        <div class="result">
+            <p class="gameStatus">Game paused.</p>
+        </div>
+    </div>
+
     <script>
 
 let humanScore = 0;
@@ -75,11 +95,11 @@ function playRound(humanChoice, computerChoice) {
 }
 
 console.log("Starting game")
-playRound(getHumanChoice(),getComputerChoice())
-playRound(getHumanChoice(),getComputerChoice())
-playRound(getHumanChoice(),getComputerChoice())
-playRound(getHumanChoice(),getComputerChoice())
-playRound(getHumanChoice(),getComputerChoice())
+// playRound(getHumanChoice(),getComputerChoice())
+// playRound(getHumanChoice(),getComputerChoice())
+// playRound(getHumanChoice(),getComputerChoice())
+// playRound(getHumanChoice(),getComputerChoice())
+// playRound(getHumanChoice(),getComputerChoice())
 console.log("Game finished. Reload site to replay.")
 
 
